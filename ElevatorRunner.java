@@ -105,7 +105,7 @@ public class ElevatorRunner
             }
             //close reader
             inFile.close();
-             
+            //elevator.closeWriter(); 
                 
         }
         catch (FileNotFoundException e)

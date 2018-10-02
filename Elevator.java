@@ -65,7 +65,7 @@ public class Elevator
         System.out.println("this is n " + n);
         //System.out.println(elevatorStack.top);
         
-        for(int i=0; i<n; i++)
+        for(int i=0; i<=n; i++)
         {
             System.out.println("enter check exit loop");
             
@@ -76,8 +76,8 @@ public class Elevator
             }
             else
             {
-                System.out.println(person + " current floor " + curr_position);
-                System.out.println("Success they left");
+                System.out.println(person + " current floor " + curr_position + "THEY LEFT");
+                //System.out.println("Success they left");
                 
                 //writes people who've exited into file
                 outFile.write(person.toString());
@@ -117,7 +117,7 @@ public class Elevator
             if( !elevatorStack.isFull())
             {
                 elevatorStack.push(person);
-                buttons.load(person.getFloorExit(),elevatorStack.top);
+                buttons.load(person.getFloorExit(), elevatorStack.top);
                 ProcessElevator();
             
             }
@@ -181,33 +181,49 @@ public class Elevator
             //elevator moves to next floor
             if(goingup)
             {
-                System.out.println("Going upp");
-                
-                curr_position = buttons.nextUp(curr_position);
-                ExitElevator();                      
-                
-                System.out.println(curr_position + " current position");
                 
                 if(buttons.nextUp(curr_position) == 0)
                 {
+                    curr_position = buttons.nextDown(curr_position);
                     goingup = false;
+                    //ExitElevator();
                 }
+                else
+                {
+                    curr_position = buttons.nextUp(curr_position);
+                    ExitElevator();
+                }
+                System.out.println("Going upp");
+                
+                //curr_position = buttons.nextUp(curr_position);
+               //ExitElevator();                      
+                
+                System.out.println(curr_position + " current position");
+                
+
 
             }
             else
             {
                 System.out.println("Going downnnn");
                 
-                
-                curr_position = buttons.nextDown(curr_position);
-                ExitElevator();
+                if(buttons.nextDown(curr_position) == 0)
+                {
+                    curr_position = buttons.nextUp(curr_position);
+                    goingup = true;
+                    //ExitElevator();
+                }  
+                else
+                {
+                    curr_position = buttons.nextDown(curr_position);
+                    ExitElevator();
+                }
+                //curr_position = buttons.nextDown(curr_position);
+                //ExitElevator();
                 
                 System.out.println(curr_position + "current position");
                 
-                if(buttons.nextUp(curr_position) == 0)
-                {
-                    goingup = true;
-                }               
+           
             }
    
         }
