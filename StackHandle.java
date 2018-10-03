@@ -24,10 +24,13 @@ public class StackHandle implements StackADT
     private int maxSize;
     private Person[] data; 
     //make array with elements type Person
-    public int top;
+    private int top;
     
     
-    
+    /**
+     * constructor
+     * @param size
+     */
     public StackHandle(int size)
     {
         maxSize = size;
@@ -35,7 +38,10 @@ public class StackHandle implements StackADT
         top = 0;
         
     }
-    
+    /**
+     * push element into top position of stack
+     * @param Person
+     */
     public void push(Person human) throws BufferOverflowException
     {
         if (top == maxSize)
@@ -47,7 +53,10 @@ public class StackHandle implements StackADT
         top++;
 
     }
-    
+    /**
+     * pops top element from stack and returns
+     * @return Person
+     */
     public Person pop() throws EmptyStackException
     {
         Person personToReturn;
@@ -56,14 +65,19 @@ public class StackHandle implements StackADT
         {
             throw new EmptyStackException();
         }
-        System.out.println(top);
+        
         personToReturn = data[top-1];
+        data[top-1] = null;
         top--;
+        
         
         return personToReturn;        
 
     }
-    
+    /**
+     * check if stack is empty
+     * @return boolean
+     */
     public boolean isEmpty()
     {
         if(top == 0)
@@ -75,7 +89,10 @@ public class StackHandle implements StackADT
             return false;
         }
     }
-    
+    /**
+     * check top element on stack
+     * @return Person
+     */
     public Person peek() throws EmptyStackException
     {
         Person temp;
@@ -90,7 +107,11 @@ public class StackHandle implements StackADT
         
         return temp;
     }
-    
+    /**
+     * Check if stack is full
+     * @return boolean
+     * @see StackADT#isFull()
+     */
     public boolean isFull()
     {
         if (top >= maxSize)
@@ -102,9 +123,12 @@ public class StackHandle implements StackADT
             return false;
         }
     }
-    
-
-    
-
-
+    /**
+     * 
+     * @return size of stack
+     */
+    public int getSize()
+    {
+        return top;
+    }
 }

@@ -1,64 +1,55 @@
-/* Application runner, reads txt file, runs stuff from
- * StackHandle and Elevator. 
- * 
- * 
- * going to load stack here
- * want 2 stacks (one to store people when we unload, another for the elevator)
- * 
+/**
+ * Application runner that reads txt file and runs methods
+ * from Elevator class to simulate elevator.
+ * @author Bryan Cheung
+ *
  */
 import java.io.*;
-
 
 public class ElevatorRunner
 {
     public static void main(String[] args)
     {
-
-        
+    
        //creates elevator object
         Elevator elevator = new Elevator(); 
-        
-        
+             
         //create objects
-        System.out.println(System.getProperty("user.dir"));
-        String data = "input.txt";
-        //String data = args[0];
+        //System.out.println(System.getProperty("user.dir"));
+        //String data = "input.txt"; //file path hardcoded for simplicity 
+        String data = args[0];//file path
         
         try
         {
             BufferedReader inFile = new BufferedReader(new FileReader(data));
                 
             int chr = inFile.read();
-            
+            //reads one char at a time
             while (chr != -1)  //reads entire txt file                   
             {
                 String name ="";
                 int floorEnter;
-                int floorExit;                        
+                int floorExit;                                                    
                 
-                //When it sees "/", skips line
-                if(chr == 47) //ascii : 47 = /
+                //When it sees "/", skips line, 13 = /r
+                if(chr == 47 || chr==13) //ascii : 47 = /
                 {
                     //System.out.println("Skipping");
                     
                     //skip line          
                     while(chr != 10) //ascii : 10 = \n
                     {
-
                         chr = inFile.read();
-                    }
-                   
+                    }       
                 }
                 else
                 {//asci : 9 = horizontal tab, 32 = space
                     while((chr != 9) && (chr != 32)) //while not space or tab
-                    {    
-                    
+                    {                      
                         name = name + (char)chr;
                         chr = inFile.read();
-  
                     }
-                   // System.out.println(name);    
+                    // System.out.println(name);    
                     
                     chr = inFile.read();
                     
@@ -78,11 +69,10 @@ public class ElevatorRunner
                     floorExit = chr - 48; //store Exit floor
                     
                     //chr = inFile.read();
-                    
-                    
-                    while(chr != 10) //skip rest of line
+                                       
+                    while(chr != 10 && chr!=-1) //skip rest of line
                     {
-                        chr = inFile.read();                       
+                        chr = inFile.read();  
                     }
                     
                     //System.out.println(floorEnter);
@@ -91,64 +81,27 @@ public class ElevatorRunner
                     Person person = new Person(name, floorEnter, floorExit, 0, "elevator");
                     
                     elevator.processPerson(person);
-                    
-                    
-                    
-                    
-                    
-               
-                    
-                }  
-                
-                chr = inFile.read();
-   
+                                        
+                }                  
+                chr = inFile.read();                
             }
             //close reader
+            //process elevator one more time in case stack is not empty
+            elevator.ProcessElevator();
             inFile.close();
-            //elevator.closeWriter(); 
-                
-        }
+            elevator.printTotal();
+            elevator.closeWriter();                 
+        }    
         catch (FileNotFoundException e)
-        {
-                
+        {              
             e.printStackTrace();
         } 
         catch (IOException e)
-        {
-                
+        {                
             e.printStackTrace();
         }
-            
-        
-        
-
+           
     }
     
- 
-
 }
 
-
-
-//NEED TO READ ONE CHAR AT TIME
-//need to build name into string one char at a time
-
-
-//need to parse data and store in person wrapper
-//if floor enter == curr floor, push
-
-//if current floor != floorEnter, pause reading
-//elevator moves (up or down) 
-//check to see if FloorExit == cur Floor,
-//pop into dummyStack -> dummyStack.push(Elevator.pop())
-//then push it all back to elevator -> Elevator.push(dummyStack.pop())
-
-//read next line, if FloorEnter == cur floor, push 
-
-
-//some conditionals to consider: 
-
-//need to record number of times a person needs to get off (pop) in order for a person to get out.                   
-//upon exit, need to print the count and the name               
-//if stack is full and a person fulfills a condition to get one (overflow), person is ignore, overflow doesn't happen, but need to keep count
-//whenever event occurs
